@@ -6,10 +6,9 @@ import com.example.todoprojectdevelop.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/todos")
@@ -18,11 +17,11 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    // 일정 생성 Controller
+    // 일정 생성
     @PostMapping
     public ResponseEntity<TodoResponseDto> save(@RequestBody CreateTodoRequestDto requestDto) {
 
-        TodoResponseDto todoResponseDto = todoService.save(
+        TodoResponseDto todoResponseDto = todoService.save( //service 요청
                 requestDto.getTitle(),
                 requestDto.getContents(),
                 requestDto.getUserName()
@@ -30,4 +29,23 @@ public class TodoController {
 
         return new ResponseEntity<>(todoResponseDto, HttpStatus.CREATED);
     }
+
+    // 전체 일정 조회
+    @GetMapping
+    public ResponseEntity<List<TodoResponseDto>> findTodoByModifiedAtBetweenOrUserName(
+            @RequestParam(required = false) String modifiedAt,
+            @RequestParam(required = false) String userName
+    ) {
+        List<TodoResponseDto> todoResponseDtoList = todoService.findTodoByModifiedAtBetweenOrUserName(modifiedAt, userName);
+        return new ResponseEntity<>(todoResponseDtoList, HttpStatus.OK);
+    }
+
+    // 선택 일정 조회
+    @GetMapping("/{todoId}")
+    public ResponseEntity<TodoResponseDto> findBytodoId(@PathVariable Long todoId) {
+        TodoResponseDto todoResponseDto = todoService.findBytodoId(todoId);
+
+        return new ResponseEntity<>(todoResponseDto, HttpStatus.OK);
+    }
+
 }
