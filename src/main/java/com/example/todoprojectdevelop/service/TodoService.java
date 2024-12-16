@@ -5,6 +5,7 @@ import com.example.todoprojectdevelop.entity.Todo;
 import com.example.todoprojectdevelop.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -50,6 +51,34 @@ public class TodoService {
     public TodoResponseDto findBytodoId(Long todoId) {
         Todo todo = todoRepository.findBytodoIdOrElseThrow(todoId);
         return new TodoResponseDto(todo);
+    }
+
+    // 선택 일정 수정
+    @Transactional
+    public TodoResponseDto updateTodo(Long todoId, String title, String contents) {
+        Todo todo = todoRepository.findBytodoIdOrElseThrow(todoId);
+
+        // 제목 수정
+        if(title != null){
+            todo.updateTitle(title);
+        }
+        // 내용 수정
+        if(contents != null){
+            todo.updateContents(contents);
+        }
+
+        todoRepository.flush(); //todoRepository.save(todo) XX 영솏성 문제
+
+        return new TodoResponseDto(todo);
+
+    }
+
+    // 선택 일정 삭제
+    public void deleteTodo(Long todoId) {
+        Todo todo = todoRepository.findBytodoIdOrElseThrow(todoId);
+
+        todoRepository.delete(todo);
+//        todoRepository.deleteById(todoId);
     }
 
 }

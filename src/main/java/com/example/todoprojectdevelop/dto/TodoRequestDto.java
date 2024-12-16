@@ -3,7 +3,7 @@ package com.example.todoprojectdevelop.dto;
 import lombok.Getter;
 
 @Getter
-public class CreateTodoRequestDto {
+public class TodoRequestDto {
 
     private final String title;
 
@@ -11,7 +11,7 @@ public class CreateTodoRequestDto {
 
     private final String userName;
 
-    public CreateTodoRequestDto(String title, String contents, String userName) {
+    public TodoRequestDto(String title, String contents, String userName) {
         this.title = title;
         this.contents = contents;
         this.userName = userName;
