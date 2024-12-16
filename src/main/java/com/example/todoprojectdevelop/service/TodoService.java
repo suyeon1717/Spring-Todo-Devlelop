@@ -3,6 +3,7 @@ package com.example.todoprojectdevelop.service;
 import com.example.todoprojectdevelop.dto.TodoResponseDto;
 import com.example.todoprojectdevelop.entity.Todo;
 import com.example.todoprojectdevelop.repository.TodoRepository;
+import com.example.todoprojectdevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-//    private final UserRepository userRepository;
+    private final UserRepository userRepository; // Todo N : User 1 연관 관계
 
     // 일정 생성
     public TodoResponseDto save(String title, String contents, String userName) {
