@@ -2,6 +2,7 @@ package com.example.todoprojectdevelop.controller;
 
 import com.example.todoprojectdevelop.dto.SignUpRequestDto;
 import com.example.todoprojectdevelop.dto.SignUpResponseDto;
+import com.example.todoprojectdevelop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,7 @@ public class UserController {
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
         SignUpResponseDto signUpResponseDto = userService.signUp(
                 requestDto.getEmail(),
-                requestDto.getPassword(),
-                requestDto.getUsername()
+                requestDto.getUserName()
         );
 
         return new ResponseEntity<>(signUpResponseDto, HttpStatus.CREATED);
