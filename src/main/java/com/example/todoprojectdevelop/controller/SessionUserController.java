@@ -56,6 +56,7 @@ public class SessionUserController {
 
         // 세션 값 삭제
         session.removeAttribute(Const.LOGIN_USER);
+        log.info("로그아웃 완료");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
