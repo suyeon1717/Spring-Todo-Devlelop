@@ -8,13 +8,13 @@ public class SignUpResponseDto {
 
     private final Long userId;
 
-    private final String userName;
-
     private final String email;
+
+    private final String userName;
 
     public SignUpResponseDto(User user) {
         this.userId = user.getUserId();
-        this.userName = user.getUserName();
         this.email = user.getEmail();
+        this.userName = user.getUserName();
     }
 }

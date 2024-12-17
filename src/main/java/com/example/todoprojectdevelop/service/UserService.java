@@ -20,8 +20,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     // 유저 생성
-    public SignUpResponseDto signUp(String email, String userName) {
-        User user = new User(email, userName);
+    public SignUpResponseDto signUp(String email, String password,  String userName) {
+        User user = new User(email, password, userName);
         User savedUser = userRepository.save(user); // Repository에 저장
 
         return new SignUpResponseDto(savedUser);

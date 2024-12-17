@@ -13,23 +13,24 @@ public class User extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-//    @Column(nullable = false)
-//    private String password;
-
-    @Column(nullable = false)
-    private String userName;
-
     @Email //import jakarta.validation.constraints.Email;
     @Column(nullable = false)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String userName;
 
     // 기본 생성자 필수로 가져야 함
     public User() {
     }
 
-    public User(String email, String userName) {
-        this.userName = userName;
+    public User(String email, String password, String userName) {
         this.email = email;
+        this.password = password;
+        this.userName = userName;
     }
 
     public void updateEmail(String userEmail) {
