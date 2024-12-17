@@ -35,7 +35,9 @@ public class UserService {
         if(userName == null && email == null) {
             userList = userRepository.findAll();
         } else if(userName == null) {
-            userList = userRepository.findByEmail(email);
+            User findUser = userRepository.findByEmail(email);
+            userList.add(findUser);
+//            userList.add(userRepository.findByEmail(email));
         } else if(email == null) {
             userList = userRepository.findByUserName(userName);
         } else {
@@ -85,6 +87,20 @@ public class UserService {
         User user = userRepository.findByUserIdOrElseThrow(userId);
 
         userRepository.delete(user);
+    }
+
+    // 유저 로그인
+    public Boolean login(String email, String password) {
+        // 입력받은 email, password 와 일치하는 Database 조회
+        User user = userRepository.findByEmailAndPassword(email, password);
+
+        return user != null; //이메일과 비밀번호 일치하는 user 존재 유무
+    }
+
+    // 이메일로 유저 조회
+    public UserResponseDto findByEmail(String email) {
+        User findUser = userRepository.findByEmail(email);
+        return new UserResponseDto(findUser);
     }
 
 

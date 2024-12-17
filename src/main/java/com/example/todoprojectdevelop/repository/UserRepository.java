@@ -10,11 +10,26 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     // 유저 조회
-    List<User> findByEmail(String email);
+    User findByEmail(String email);
     List<User> findByUserName(String userName);
     List<User> findByUserNameAndEmail(String userName, String email);
 
     default User findByUserIdOrElseThrow(Long userId) {
         return findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exitst id = " + userId));
     }
+
+    User findByEmailAndPassword(String email, String password);
+
+//    default Boolean login(String email, String password) {
+//        User user = findByEmailAndPassword(email, password);
+//
+//        return user.getId() != null;
+//    }
+
+
+//    default User login(String email, String password) {
+//        return findByEmailAndPassword(email, password);
+//
+////        return findById(user.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+//    }
 }
