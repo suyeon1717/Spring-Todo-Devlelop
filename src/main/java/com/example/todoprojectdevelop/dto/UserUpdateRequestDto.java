@@ -3,13 +3,13 @@ package com.example.todoprojectdevelop.dto;
 import lombok.Getter;
 
 @Getter
-public class UserUpdateResponseDto {
+public class UserUpdateRequestDto {
 
     private final String userName;
 
     private final String email;
 
-    public UserUpdateResponseDto(String userEmail, String userName) {
+    public UserUpdateRequestDto(String userEmail, String userName) {
         this.email = userEmail;
         this.userName = userName;
     }

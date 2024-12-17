@@ -3,7 +3,7 @@ package com.example.todoprojectdevelop.controller;
 import com.example.todoprojectdevelop.dto.SignUpRequestDto;
 import com.example.todoprojectdevelop.dto.SignUpResponseDto;
 import com.example.todoprojectdevelop.dto.UserResponseDto;
-import com.example.todoprojectdevelop.dto.UserUpdateResponseDto;
+import com.example.todoprojectdevelop.dto.UserUpdateRequestDto;
 import com.example.todoprojectdevelop.repository.UserRepository;
 import com.example.todoprojectdevelop.service.UserService;
 import jakarta.validation.constraints.Email;
@@ -57,7 +57,7 @@ public class UserController {
     @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(
             @PathVariable Long userId,
-            @RequestBody UserUpdateResponseDto requestDto
+            @RequestBody UserUpdateRequestDto requestDto
             ) {
         UserResponseDto userResponseDto = userService.updateUser(userId, requestDto.getEmail(), requestDto.getUserName());
         return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
