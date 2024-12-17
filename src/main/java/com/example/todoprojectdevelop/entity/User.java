@@ -11,7 +11,6 @@ public class User extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(nullable = false)
     private Long userId;
 
 //    @Column(nullable = false)
@@ -32,4 +31,14 @@ public class User extends BaseEntity{
         this.userName = userName;
         this.email = email;
     }
+
+    public void updateEmail(String userEmail) {
+        this.email = userEmail;
+    }
+
+    public void updateName(String userName) {
+        this.userName = userName;
+    }
+
+
 }
