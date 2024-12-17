@@ -13,7 +13,7 @@ public class UserResponseDto {
     private final String userName;
 
     public UserResponseDto(User user) {
-        this.userId = user.getUserId();
+        this.userId = user.getId();
         this.email = user.getEmail();
         this.userName = user.getUserName();
     }

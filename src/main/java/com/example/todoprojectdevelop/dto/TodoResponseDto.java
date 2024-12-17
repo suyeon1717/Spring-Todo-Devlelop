@@ -14,7 +14,7 @@ public class TodoResponseDto {
 
     private final String contents;
 
-    private final String userName;
+    private final Long userId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime createdAt;
@@ -23,10 +23,10 @@ public class TodoResponseDto {
     private final LocalDateTime modifiedAt;
 
     public TodoResponseDto(Todo todo) {
-        this.todoId = todo.getTodo_id();
+        this.todoId = todo.getId();
         this.title = todo.getTitle();
         this.contents = todo.getContents();
-        this.userName = todo.getUserName();
+        this.userId = todo.getUser().getId();
         this.createdAt = todo.getCreatedAt();
         this.modifiedAt = todo.getModifiedAt();
     }

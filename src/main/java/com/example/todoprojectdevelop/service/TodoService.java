@@ -2,7 +2,9 @@ package com.example.todoprojectdevelop.service;
 
 import com.example.todoprojectdevelop.dto.TodoResponseDto;
 import com.example.todoprojectdevelop.entity.Todo;
+import com.example.todoprojectdevelop.entity.User;
 import com.example.todoprojectdevelop.repository.TodoRepository;
+import com.example.todoprojectdevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,27 +20,32 @@ import java.util.stream.Collectors;
 public class TodoService {
 
     private final TodoRepository todoRepository;
-//    private final UserRepository userRepository; // Todo N : User 1 연관 관계
+    private final UserRepository userRepository; // Todo N : User 1 연관 관계
 
     // 일정 생성
-    public TodoResponseDto save(String title, String contents, String userName) {
+    public TodoResponseDto save(String title, String contents, Long userId) {
 
-        Todo todo = new Todo(title, contents, userName);
+        User findUser = userRepository.findByUserIdOrElseThrow(userId);
+
+        Todo todo = new Todo(title, contents);
+        todo.setUser(findUser);
+
         Todo savedTodo = todoRepository.save(todo); // Repository에 저장
 
         return new TodoResponseDto(savedTodo);
     }
 
     // 전체 일정 조회 : case 4개
-    public List<TodoResponseDto> findTodoByModifiedAtBetweenOrUserName(String modifiedAt, String userName) {
+    public List<TodoResponseDto> findTodoByModifiedAtBetweenOrUserId(String modifiedAt, Long userId) {
         LocalDate date = null;
         if(modifiedAt != null)
             date = LocalDate.parse(modifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
         // LocalDate를 LocalDateTime으로 변환 (하루의 시작과 끝)
         LocalDateTime startOfDay = (date != null) ? date.atStartOfDay() : null;
         LocalDateTime endOfDay = (date != null) ? date.atTime(23, 59, 59, 999999) : null;
 
-        List<Todo> todoList = todoRepository.findTodoByModifiedAtBetweenOrUserName(startOfDay, endOfDay, userName);
+        List<Todo> todoList = todoRepository.findTodoByModifiedAtBetweenOrUserId(startOfDay, endOfDay, userId);
 
         List<TodoResponseDto> todoResponseDtoList =
                 todoList.stream()
@@ -66,7 +73,6 @@ public class TodoService {
         if(contents != null){
             todo.updateContents(contents);
         }
-
         todoRepository.flush(); //todoRepository.save(todo) XX 영솏성 문제
 
         return new TodoResponseDto(todo);

@@ -12,7 +12,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
 
     // 전체 일정 조회
-    List<Todo> findTodoByModifiedAtBetweenOrUserName(LocalDateTime startOfDay, LocalDateTime endOfDay, String userName);
+    List<Todo> findTodoByModifiedAtBetweenOrUserId(LocalDateTime startOfDay, LocalDateTime endOfDay, Long userId);
 
     // 선택 일정 조회
     default Todo findBytodoIdOrElseThrow(Long todoId) {

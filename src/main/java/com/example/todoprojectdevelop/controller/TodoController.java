@@ -26,7 +26,7 @@ public class TodoController {
         TodoResponseDto todoResponseDto = todoService.save( //service 요청
                 requestDto.getTitle(),
                 requestDto.getContents(),
-                requestDto.getUserName()
+                requestDto.getUserId()
         );
 
         return new ResponseEntity<>(todoResponseDto, HttpStatus.CREATED);
@@ -34,11 +34,11 @@ public class TodoController {
 
     // 전체 일정 조회
     @GetMapping
-    public ResponseEntity<List<TodoResponseDto>> findTodoByModifiedAtBetweenOrUserName(
+    public ResponseEntity<List<TodoResponseDto>> findTodoByModifiedAtBetweenOrUserId(
             @RequestParam(required = false) String modifiedAt,
-            @RequestParam(required = false) String userName
+            @RequestParam(required = false) Long userId
     ) {
-        List<TodoResponseDto> todoResponseDtoList = todoService.findTodoByModifiedAtBetweenOrUserName(modifiedAt, userName);
+        List<TodoResponseDto> todoResponseDtoList = todoService.findTodoByModifiedAtBetweenOrUserId(modifiedAt, userId);
         return new ResponseEntity<>(todoResponseDtoList, HttpStatus.OK);
     }
 

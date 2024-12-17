@@ -9,11 +9,11 @@ public class TodoRequestDto {
 
     private final String contents;
 
-    private final String userName;
+    private final Long userId;
 
-    public TodoRequestDto(String title, String contents, String userName) {
+    public TodoRequestDto(String title, String contents, Long userId) {
         this.title = title;
         this.contents = contents;
-        this.userName = userName;
+        this.userId = userId;
     }
 }
