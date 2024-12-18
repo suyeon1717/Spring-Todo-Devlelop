@@ -73,7 +73,7 @@ public class TodoService {
         if(contents != null){
             todo.updateContents(contents);
         }
-        todoRepository.flush(); //todoRepository.save(todo) XX 영솏성 문제
+        todoRepository.flush(); //todoRepository.save(todo) XX 영속성 문제
 
         return new TodoResponseDto(todo);
 
