@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,14 +40,13 @@ public class TodoService {
     }
 
     // 전체 일정 조회 : case 4개
-    public List<TodoResponseDto> findAllTodo(String modifiedAt, Long userId) {
+    public Page<TodoPageResponseDto> findAllTodo(String modifiedAt, Long userId, int page, int size) {
 
-//        Pageable pageable = PageRequest.of(10, 10); // pageable 객체 생성
-
-        List<Todo> todoList;
+        Pageable pageable = PageRequest.of(page, size); // pageable 객체 생성
+        Page<Todo> todoPage;
 
         if(modifiedAt == null && userId == null){ //Param이 모두 비어있다면 모든 일정을 조회
-            todoList = todoRepository.findAllByOrderByModifiedAtDesc();
+            todoPage = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
         }
         else{
             LocalDate date = null;
@@ -60,15 +57,10 @@ public class TodoService {
             LocalDateTime startOfDay = (date != null) ? date.atStartOfDay() : null;
             LocalDateTime endOfDay = (date != null) ? date.atTime(23, 59, 59, 999999) : null;
 
-            todoList = todoRepository.findByModifiedAtBetweenOrUserId(startOfDay, endOfDay, userId);
+            todoPage = todoRepository.findByModifiedAtBetweenOrUserId(pageable, startOfDay, endOfDay, userId);
         }
 
-        List<TodoResponseDto> todoResponseDtoList =
-                todoList.stream()
-                .map(todo -> new TodoResponseDto(todo))
-                .collect(Collectors.toList());
-
-        return todoResponseDtoList;
+        return todoPage.map(todo -> new TodoPageResponseDto(todo, commentRepository.countAllByTodoId(todo.getId()), todo.getUser().getUserName()));
     }
 
     public Page<TodoPageResponseDto> todoPaged(int page, int size) {
@@ -109,7 +101,6 @@ public class TodoService {
         Todo todo = todoRepository.findBytodoIdOrElseThrow(todoId);
 
         todoRepository.delete(todo);
-//        todoRepository.deleteById(todoId);
     }
 
 }

@@ -8,16 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     // 전체 일정 조회 (Param X)
-//    List<Todo> findAllByOrderByModifiedAtDesc();
     Page<Todo> findAllByOrderByModifiedAtDesc(Pageable pageable);
 
     // 전체 일정 조회 (Param O)
-    List<Todo> findByModifiedAtBetweenOrUserId(LocalDateTime startOfDay, LocalDateTime endOfDay, Long userId);
+    Page<Todo> findByModifiedAtBetweenOrUserId(Pageable pageable, LocalDateTime startOfDay, LocalDateTime endOfDay, Long userId);
 
     // 선택 일정 조회
     default Todo findBytodoIdOrElseThrow(Long todoId) {

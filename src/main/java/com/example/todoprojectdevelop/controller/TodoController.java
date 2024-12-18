@@ -34,19 +34,13 @@ public class TodoController {
 
     // 전체 일정 조회
     @GetMapping
-//    public ResponseEntity<List<TodoResponseDto>> findAllTodo(
-//            @RequestParam(required = false) String modifiedAt,
-//            @RequestParam(required = false) Long userId
-//    ) {
-//        List<TodoResponseDto> todoResponseDtoList = todoService.findAllTodo(modifiedAt, userId);
-//        return new ResponseEntity<>(todoResponseDtoList, HttpStatus.OK);
-//    }
-
     public ResponseEntity<List<TodoPageResponseDto>> findAllTodo(
+            @RequestParam(required = false) String modifiedAt,
+            @RequestParam(required = false) Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        Page<TodoPageResponseDto> todoPageResponseDtos = todoService.todoPaged(page,size);
+        Page<TodoPageResponseDto> todoPageResponseDtos = todoService.findAllTodo(modifiedAt, userId, page, size);
         return new ResponseEntity<>(todoPageResponseDtos.getContent(), HttpStatus.OK);
     }
 
