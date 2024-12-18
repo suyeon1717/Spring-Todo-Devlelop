@@ -1,5 +1,6 @@
 package com.example.todoprojectdevelop.controller;
 
+import com.example.todoprojectdevelop.config.PasswordEncoder;
 import com.example.todoprojectdevelop.dto.SignUpRequestDto;
 import com.example.todoprojectdevelop.dto.SignUpResponseDto;
 import com.example.todoprojectdevelop.dto.UserResponseDto;
@@ -21,13 +22,14 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final PasswordEncoder bcrypt;
 
     // 유저 생성
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponseDto> signUp(@RequestBody SignUpRequestDto requestDto) {
         SignUpResponseDto signUpResponseDto = userService.signUp(
                 requestDto.getEmail(),
-                requestDto.getPassword(),
+                bcrypt.encode(requestDto.getPassword()),
                 requestDto.getUserName()
         );
 

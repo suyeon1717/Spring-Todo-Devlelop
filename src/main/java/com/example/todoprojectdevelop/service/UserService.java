@@ -1,5 +1,6 @@
 package com.example.todoprojectdevelop.service;
 
+import com.example.todoprojectdevelop.config.PasswordEncoder;
 import com.example.todoprojectdevelop.dto.SignUpResponseDto;
 import com.example.todoprojectdevelop.dto.UserResponseDto;
 import com.example.todoprojectdevelop.entity.User;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder bcrypt;
 
     // 유저 생성
     public SignUpResponseDto signUp(String email, String password,  String userName) {
@@ -91,10 +93,10 @@ public class UserService {
 
     // 유저 로그인
     public Boolean login(String email, String password) {
-        // 입력받은 email, password 와 일치하는 Database 조회
-        User user = userRepository.findByEmailAndPassword(email, password);
-
-        return user != null; //이메일과 비밀번호 일치하는 user 존재 유무
+        // DB에 저장된 인코딩된 비밀번호를 가져옴
+        String encodedPassword = userRepository.findByEmail(email).getPassword();
+        // 비밀번호가 일치하면 true
+        return bcrypt.matches(password, encodedPassword);
     }
 
     // 이메일로 유저 조회

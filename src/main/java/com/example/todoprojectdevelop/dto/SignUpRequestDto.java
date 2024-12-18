@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class SignUpRequestDto {
 
-    @NotBlank
-    private final String userId;
+//    @NotBlank
+//    private final String userId;
 
     @Email(message = "형식 : abc@naver.com")
     @NotBlank
@@ -22,8 +22,8 @@ public class SignUpRequestDto {
     @Size(min = 1, max = 10)
     private final String userName;
 
-    public SignUpRequestDto(String userId,  String email, String password, String userName) {
-        this.userId = userId;
+    public SignUpRequestDto(  String email, String password, String userName) {
+//        this.userId = userId;
         this.email = email;
         this.password = password;
         this.userName = userName;

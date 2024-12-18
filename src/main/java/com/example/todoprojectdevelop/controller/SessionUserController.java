@@ -1,6 +1,7 @@
 package com.example.todoprojectdevelop.controller;
 
 import com.example.todoprojectdevelop.common.Const;
+import com.example.todoprojectdevelop.config.PasswordEncoder;
 import com.example.todoprojectdevelop.dto.LoginRequestDto;
 import com.example.todoprojectdevelop.dto.UserResponseDto;
 import com.example.todoprojectdevelop.service.UserService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SessionUserController {
 
     private final UserService userService;
+    private final PasswordEncoder bcrypt;
 
     @PostMapping("/login")
     public ResponseEntity<UserResponseDto> login(
