@@ -2,7 +2,6 @@ package com.example.todoprojectdevelop.controller;
 
 import com.example.todoprojectdevelop.dto.TodoRequestDto;
 import com.example.todoprojectdevelop.dto.TodoResponseDto;
-import com.example.todoprojectdevelop.repository.TodoRepository;
 import com.example.todoprojectdevelop.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import java.util.List;
 public class TodoController {
 
     private final TodoService todoService;
-    private final TodoRepository todoRepository;
     private static final String USER_ID = "USER_ID";
 
     // 일정 생성
