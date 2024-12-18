@@ -1,11 +1,16 @@
 package com.example.todoprojectdevelop.service;
 
+import com.example.todoprojectdevelop.dto.TodoPageResponseDto;
 import com.example.todoprojectdevelop.dto.TodoResponseDto;
 import com.example.todoprojectdevelop.entity.Todo;
 import com.example.todoprojectdevelop.entity.User;
+import com.example.todoprojectdevelop.repository.CommentRepository;
 import com.example.todoprojectdevelop.repository.TodoRepository;
 import com.example.todoprojectdevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +26,7 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
     private final UserRepository userRepository; // Todo N : User 1 연관 관계
+    private final CommentRepository commentRepository;
 
     // 일정 생성
     public TodoResponseDto save(String title, String contents, Long userId) {
@@ -37,6 +43,8 @@ public class TodoService {
 
     // 전체 일정 조회 : case 4개
     public List<TodoResponseDto> findAllTodo(String modifiedAt, Long userId) {
+
+//        Pageable pageable = PageRequest.of(10, 10); // pageable 객체 생성
 
         List<Todo> todoList;
 
@@ -61,6 +69,14 @@ public class TodoService {
                 .collect(Collectors.toList());
 
         return todoResponseDtoList;
+    }
+
+    public Page<TodoPageResponseDto> todoPaged(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size); // pageable 객체 생성
+        Page<Todo> todoPage = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+
+        return todoPage.map(todo -> new TodoPageResponseDto(todo, commentRepository.countAllByTodoId(todo.getId()), todo.getUser().getUserName()));
+
     }
 
     // 선택 일정 조회

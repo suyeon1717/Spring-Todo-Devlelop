@@ -1,9 +1,11 @@
 package com.example.todoprojectdevelop.controller;
 
+import com.example.todoprojectdevelop.dto.TodoPageResponseDto;
 import com.example.todoprojectdevelop.dto.TodoRequestDto;
 import com.example.todoprojectdevelop.dto.TodoResponseDto;
 import com.example.todoprojectdevelop.service.TodoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +34,20 @@ public class TodoController {
 
     // 전체 일정 조회
     @GetMapping
-    public ResponseEntity<List<TodoResponseDto>> findAllTodo(
-            @RequestParam(required = false) String modifiedAt,
-            @RequestParam(required = false) Long userId
+//    public ResponseEntity<List<TodoResponseDto>> findAllTodo(
+//            @RequestParam(required = false) String modifiedAt,
+//            @RequestParam(required = false) Long userId
+//    ) {
+//        List<TodoResponseDto> todoResponseDtoList = todoService.findAllTodo(modifiedAt, userId);
+//        return new ResponseEntity<>(todoResponseDtoList, HttpStatus.OK);
+//    }
+
+    public ResponseEntity<List<TodoPageResponseDto>> findAllTodo(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
-        List<TodoResponseDto> todoResponseDtoList = todoService.findAllTodo(modifiedAt, userId);
-        return new ResponseEntity<>(todoResponseDtoList, HttpStatus.OK);
+        Page<TodoPageResponseDto> todoPageResponseDtos = todoService.todoPaged(page,size);
+        return new ResponseEntity<>(todoPageResponseDtos.getContent(), HttpStatus.OK);
     }
 
     // 선택 일정 조회
