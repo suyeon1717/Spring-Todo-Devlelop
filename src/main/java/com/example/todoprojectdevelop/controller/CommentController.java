@@ -46,4 +46,26 @@ public class CommentController {
         return new ResponseEntity<>(myCommentResponseDtoList, HttpStatus.OK);
     }
 
+    // 댓글 수정
+    @PatchMapping("/mycomments/{commentId}")
+    public ResponseEntity<CommentResponseDto> updateComment(
+            @SessionAttribute(USER_ID) Long userId,
+            @PathVariable Long commentId,
+            @RequestBody String contents
+    ) {
+        CommentResponseDto commentResponseDto = commentService.updateComment(userId, commentId, contents);
+
+        return new ResponseEntity<>(commentResponseDto, HttpStatus.OK);
+    }
+
+    // 댓글 삭제
+    @DeleteMapping("/mycomments/{commentId}")
+    public ResponseEntity<Void> deleteComment(
+            @SessionAttribute(USER_ID) Long userId,
+            @PathVariable Long commentId
+    ) {
+        commentService.deleteComment(userId, commentId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

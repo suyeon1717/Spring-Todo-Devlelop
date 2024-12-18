@@ -10,6 +10,7 @@ import com.example.todoprojectdevelop.repository.TodoRepository;
 import com.example.todoprojectdevelop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +58,30 @@ public class CommentService {
                         .collect(Collectors.toList());
 
         return myCommnetsResponseDtoList;
+    }
+
+    @Transactional
+    // 댓글 수정
+    public CommentResponseDto updateComment(Long userId, Long commentId, String contents) {
+        Comment comment = commentRepository.findByCommentIdOrElseThrow(commentId);
+
+        if(!comment.getUser().getId().equals(userId)) // 수정하려는 댓글의 작성자 != 로그인 유저
+            throw new RuntimeException("댓글 수정 권한이 없습니다.");
+
+        comment.updateContents(contents);
+        commentRepository.flush();
+
+        return new CommentResponseDto(comment);
+    }
+
+    // 댓글 삭제
+    public void deleteComment(Long userId, Long commentId) {
+        Comment comment = commentRepository.findByCommentIdOrElseThrow(commentId);
+
+        if(!comment.getUser().getId().equals(userId)) // 삭제하려는 댓글의 작성자 != 로그인 유저
+            throw new RuntimeException("댓글 삭제 권한이 없습니다.");
+
+        commentRepository.delete(comment);
     }
 
 }
