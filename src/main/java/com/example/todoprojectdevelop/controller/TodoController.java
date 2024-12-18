@@ -32,11 +32,11 @@ public class TodoController {
 
     // 전체 일정 조회
     @GetMapping
-    public ResponseEntity<List<TodoResponseDto>> findTodoByModifiedAtBetweenOrUserId(
+    public ResponseEntity<List<TodoResponseDto>> findAllTodo(
             @RequestParam(required = false) String modifiedAt,
             @RequestParam(required = false) Long userId
     ) {
-        List<TodoResponseDto> todoResponseDtoList = todoService.findTodoByModifiedAtBetweenOrUserId(modifiedAt, userId);
+        List<TodoResponseDto> todoResponseDtoList = todoService.findAllTodo(modifiedAt, userId);
         return new ResponseEntity<>(todoResponseDtoList, HttpStatus.OK);
     }
 

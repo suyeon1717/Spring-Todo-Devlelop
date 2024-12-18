@@ -36,21 +36,30 @@ public class TodoService {
     }
 
     // 전체 일정 조회 : case 4개
-    public List<TodoResponseDto> findTodoByModifiedAtBetweenOrUserId(String modifiedAt, Long userId) {
-        LocalDate date = null;
-        if(modifiedAt != null)
-            date = LocalDate.parse(modifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    public List<TodoResponseDto> findAllTodo(String modifiedAt, Long userId) {
 
-        // LocalDate를 LocalDateTime으로 변환 (하루의 시작과 끝)
-        LocalDateTime startOfDay = (date != null) ? date.atStartOfDay() : null;
-        LocalDateTime endOfDay = (date != null) ? date.atTime(23, 59, 59, 999999) : null;
+        List<Todo> todoList;
 
-        List<Todo> todoList = todoRepository.findTodoByModifiedAtBetweenOrUserId(startOfDay, endOfDay, userId);
+        if(modifiedAt == null && userId == null){ //Param이 모두 비어있다면 모든 일정을 조회
+            todoList = todoRepository.findAllByOrderByModifiedAtDesc();
+        }
+        else{
+            LocalDate date = null;
+            if(modifiedAt != null)
+                date = LocalDate.parse(modifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            // LocalDate를 LocalDateTime으로 변환 (하루의 시작과 끝)
+            LocalDateTime startOfDay = (date != null) ? date.atStartOfDay() : null;
+            LocalDateTime endOfDay = (date != null) ? date.atTime(23, 59, 59, 999999) : null;
+
+            todoList = todoRepository.findByModifiedAtBetweenOrUserId(startOfDay, endOfDay, userId);
+        }
 
         List<TodoResponseDto> todoResponseDtoList =
                 todoList.stream()
                 .map(todo -> new TodoResponseDto(todo))
                 .collect(Collectors.toList());
+
         return todoResponseDtoList;
     }
 
