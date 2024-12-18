@@ -46,10 +46,14 @@ public class TodoController {
 
     // 선택 일정 조회
     @GetMapping("/{todoId}")
-    public ResponseEntity<TodoResponseDto> findBytodoId(@PathVariable Long todoId) {
-        TodoResponseDto todoResponseDto = todoService.findBytodoId(todoId);
+    public ResponseEntity<TodoPageResponseDto> findByTodoId(
+            @PathVariable Long todoId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        TodoPageResponseDto todoPageResponseDtos = todoService.findByTodoId(todoId);
 
-        return new ResponseEntity<>(todoResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(todoPageResponseDtos, HttpStatus.OK);
     }
 
     // 선택 일정 수정

@@ -63,18 +63,12 @@ public class TodoService {
         return todoPage.map(todo -> new TodoPageResponseDto(todo, commentRepository.countAllByTodoId(todo.getId()), todo.getUser().getUserName()));
     }
 
-    public Page<TodoPageResponseDto> todoPaged(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size); // pageable 객체 생성
-        Page<Todo> todoPage = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
+    // 선택 일정 조회 -> 일정은 하나 뿐이라 페이지 의미 없음, response만 page response 형태로
+    public TodoPageResponseDto findByTodoId(Long todoId) {
 
-        return todoPage.map(todo -> new TodoPageResponseDto(todo, commentRepository.countAllByTodoId(todo.getId()), todo.getUser().getUserName()));
-
-    }
-
-    // 선택 일정 조회
-    public TodoResponseDto findBytodoId(Long todoId) {
         Todo todo = todoRepository.findBytodoIdOrElseThrow(todoId);
-        return new TodoResponseDto(todo);
+
+        return new TodoPageResponseDto(todo, commentRepository.countAllByTodoId(todoId), todo.getUser().getUserName());
     }
 
     // 선택 일정 수정
