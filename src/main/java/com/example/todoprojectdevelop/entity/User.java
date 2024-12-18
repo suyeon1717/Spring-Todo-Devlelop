@@ -14,7 +14,7 @@ public class User extends BaseEntity{
     private Long id;
 
     @Email //import jakarta.validation.constraints.Email;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)

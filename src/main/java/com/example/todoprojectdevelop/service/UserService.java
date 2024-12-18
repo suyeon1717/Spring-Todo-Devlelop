@@ -23,6 +23,10 @@ public class UserService {
 
     // 유저 생성
     public SignUpResponseDto signUp(String email, String password,  String userName) {
+
+        if (userRepository.findByEmail(email) != null) {
+            throw new RuntimeException("이미 존재하는 이메일입니다.");
+        }
         User user = new User(email, password, userName);
         User savedUser = userRepository.save(user); // Repository에 저장
 
