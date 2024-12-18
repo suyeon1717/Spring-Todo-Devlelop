@@ -3,6 +3,8 @@ package com.example.todoprojectdevelop.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Entity
@@ -22,6 +24,7 @@ public class Todo extends BaseEntity {
     // 일정 N : 유저 1
     @Setter
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE) //부모 엔티티가 삭제되면 자식 엔티티도 삭제되게 해주는 옵션
     @JoinColumn(name = "user_id")
     private User user;
 
