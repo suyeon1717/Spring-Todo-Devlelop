@@ -18,17 +18,17 @@ public class TodoController {
 
     private final TodoService todoService;
     private final TodoRepository todoRepository;
+    private static final String USER_ID = "USER_ID";
 
     // 일정 생성
     @PostMapping
-    public ResponseEntity<TodoResponseDto> save(@RequestBody TodoRequestDto requestDto) {
+    public ResponseEntity<TodoResponseDto> save(@SessionAttribute(USER_ID) Long userId, @RequestBody TodoRequestDto requestDto) {
 
         TodoResponseDto todoResponseDto = todoService.save( //service 요청
                 requestDto.getTitle(),
                 requestDto.getContents(),
-                requestDto.getUserId()
+                userId
         );
-
         return new ResponseEntity<>(todoResponseDto, HttpStatus.CREATED);
     }
 

@@ -1,6 +1,5 @@
 package com.example.todoprojectdevelop.filter;
 
-import com.example.todoprojectdevelop.common.Const;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -37,7 +36,7 @@ public class LoginFilter implements Filter {
             HttpSession session = httpRequest.getSession(false);
 
             // 로그인하지 않은 사용자인 경우
-            if (session == null || session.getAttribute(Const.LOGIN_USER) == null) {
+            if (session == null || session.getAttribute("USER_ID") == null) {
                 throw new RuntimeException("로그인 해주세요. ");
             }
 

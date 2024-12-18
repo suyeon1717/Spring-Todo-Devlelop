@@ -25,6 +25,7 @@ public class SessionUserController {
     private final UserService userService;
     private final PasswordEncoder bcrypt;
 
+    // 로그인
     @PostMapping("/login")
     public ResponseEntity<UserResponseDto> login(
             @RequestBody LoginRequestDto dto,
@@ -40,13 +41,14 @@ public class SessionUserController {
         // 유저 정보 조회
         UserResponseDto loginUser = userService.findByEmail(dto.getEmail());
 
-        // Session에 로그인 유저 정보를 저장
-        session.setAttribute(Const.LOGIN_USER, loginUser);
-
+        // Session에 로그인 유저의 정보(식별자)를 저장
+        session.setAttribute("USER_ID", loginUser.getUserId());
+        log.info("로그인 완료");
         // 로그인 성공 시 리다이렉트
         return new ResponseEntity<>(loginUser, HttpStatus.OK);
     }
 
+    // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
