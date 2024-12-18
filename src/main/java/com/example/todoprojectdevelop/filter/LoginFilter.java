@@ -40,8 +40,6 @@ public class LoginFilter implements Filter {
                 throw new RuntimeException("로그인 해주세요. ");
             }
 
-            // 로그인 성공 로직
-            log.info("로그인에 성공했습니다.");
         }
         chain.doFilter(request, response);
 
