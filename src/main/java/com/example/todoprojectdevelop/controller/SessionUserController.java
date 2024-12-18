@@ -1,6 +1,5 @@
 package com.example.todoprojectdevelop.controller;
 
-import com.example.todoprojectdevelop.common.Const;
 import com.example.todoprojectdevelop.config.PasswordEncoder;
 import com.example.todoprojectdevelop.dto.LoginRequestDto;
 import com.example.todoprojectdevelop.dto.UserResponseDto;
@@ -59,7 +58,7 @@ public class SessionUserController {
         }
 
         // 세션 값 삭제
-        session.removeAttribute(Const.LOGIN_USER);
+        session.removeAttribute("USER_ID");
         log.info("로그아웃 완료");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
