@@ -102,4 +102,6 @@ public class LoginRequestDto {
 ![image](https://github.com/user-attachments/assets/2f277c75-d0e7-4aaa-aa09-27f2136ddfb4)<br>
 
 ### 8) 일정 페이징 조회
+- 페이지 번호와 페이지 크기를 쿼리 파라미터로 전달 (페이지 디폴트 크기는 10)
+- 할일 제목, 할일 내용, 댓글 개수, 일정 작성일, 일정 수정일, 일정 작성 유저명
 ![image](https://github.com/user-attachments/assets/a6442f6b-cffe-4e01-a1a9-a5ee0dd2f95a)<br>
