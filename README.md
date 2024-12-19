@@ -6,11 +6,11 @@
 #### 일정 페이징 조회
 
 ## 🥊 API 명세 및 ERD 작성
-#### API 명세
+### API 명세
 ![image](https://github.com/user-attachments/assets/c1e9257c-bef8-4262-ad06-30646afd8257)<br>
 ![image](https://github.com/user-attachments/assets/a04f1054-7970-4935-9a01-637f23503264)
 
-#### ERD
+### ERD
 일정 N : 유저 1 <br>
 댓글 N : 일정 1 <br>
 ![image](https://github.com/user-attachments/assets/306f8d00-24da-4ae2-aeb4-a1f796b9f18c)
